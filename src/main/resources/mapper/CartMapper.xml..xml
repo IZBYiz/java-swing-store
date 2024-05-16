@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.store.mapper.CartMapper">
+
+    <resultMap id="CartEntityMap" type="com.cy.store.entity.Cart">
+        <id column="cid" property="cid"/>
+        <result column="created_user" property="createdUser"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_user" property="modifiedUser"/>
+        <result column="modified_time" property="modifiedTime"/>
+    </resultMap>
+
+    <!-- 插入购物车数据：Integer insert(Cart cart) -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="cid">
+        INSERT INTO t_cart (uid, pid, price, num, created_user, created_time, modified_user, modified_time)
+        VALUES (#{uid}, #{pid}, #{price}, #{num}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime})
+    </insert>
+
+    <update id="updateNumById">
+        update t_cart set num=#{num} where pid=#{pid}
+    </update>
+
+    <select id="findByPidAndUid" resultMap="CartEntityMap">
+        select *from t_cart where uid=#{uid} and pid=#{pid}
+    </select>
+
+    <delete id="deleteByPid">
+        delete from t_cart where pid=#{pid};
+    </delete>
+
+    <select id="findByUid" resultType="com.cy.store.entity.Cart">
+        select *from t_cart where uid=#{uid};
+    </select>
+</mapper>
